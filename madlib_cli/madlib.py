@@ -1,25 +1,33 @@
-from textwrap import dedent
+import re
 
+def madlib():
+    print("""
+    Welcome to the Madlib cli app!
+    Prompts will ask you to input
+    certain types of words. For example,
+    if the prompt asks for a color you
+    might type "red". 
+    After you type your response press
+    enter to continue.
+    After all prompts have been entered, 
+    the finished madlib will be displayed 
+    and saved as a text file. Have fun!
+    """)
+    temp = ""
+    with open('template.txt', 'r') as temp:
+        temp = temp.read()
+    regex1 = '{([^}]*)}'
+    regex2 = '({[^}]*})'
+    matches = re.findall(regex1, temp)
+    for i in range(len(matches)):
+        m = re.search(regex2, temp)
+        print(matches[i])
+        temp = temp[:m.start()] + input() + temp[m.end():]
+        print('\n')
+    print(temp)
+    with open('madlib-response.txt', 'w+') as result:
+        result.write(temp)
+    return temp
 
-def welcome():
-    message = """
-        **************************************
-        **       Welcome to Madlibs!        **
-        **    Please provide a response     **
-        **        to each question          **
-        **                                  **  
-        ** To quit at any time, type "quit" **
-        **************************************
-        """
-    print(dedent(message))
-
-
-def text_file():
-    with open("madlib.txt") as temp:
-        content = temp.read()
-
-    
-
-# Mad Libs are stories with words removed and replaced by blank spaces.  One player acts as the “reader” and asks the other players, who haven’t seen the story, to fill in the blanks with adjectives, nouns, exclamations, colors, adjectives, and more. These words are inserted into the blanks and then the story is read aloud to hilarious results.  There are no winners or losers, only laughter. Mad Libs Live! brings this simple game to the musical stage with a script and songs full of blanks that are filled in by audience members and an infectious pop score. Mad Libs Live! fully embraces the spirit of the “World’s Greatest Word Game” and is the perfect musical for audiences 7 and up who want to stop being serious and start getting goofy!
-# Today I went to the zoo. I saw a(n)
- 
+if __name__ == '__main__':
+    madlib()
